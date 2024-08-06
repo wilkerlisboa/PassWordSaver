@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useEffect } from 'react';
 import {
   View,
@@ -8,11 +7,11 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  ScrollView,
   StatusBar,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Footer from './components/Footer';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default function App() {
   const [name, setName] = useState('');
@@ -20,6 +19,7 @@ export default function App() {
   const [passwords, setPasswords] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [editingIndex, setEditingIndex] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     loadPasswords();
@@ -87,14 +87,26 @@ export default function App() {
           value={name}
           onChangeText={setName}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Senha"
-          placeholderTextColor="#ccc"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
+        <View style={styles.passwordWrapper}>
+          <TextInput
+            style={styles.passwordInput}
+            placeholder="Senha"
+            placeholderTextColor="#ccc"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword}
+          />
+          <TouchableOpacity
+            style={styles.iconButton}
+            onPress={() => setShowPassword(!showPassword)}
+          >
+            <Icon
+              name={showPassword ? 'eye-off' : 'eye'}
+              size={24}
+              color="#fff"
+            />
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity style={styles.button} onPress={handleSave}>
           <Text style={styles.buttonText}>
             {isEditing ? 'Editar Senha' : 'Salvar Senha'}
@@ -157,11 +169,29 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: '#1f1f1f',
   },
+  passwordWrapper: {
+    position: 'relative',
+  },
+  passwordInput: {
+    height: 50,
+    borderColor: '#6200EE',
+    borderWidth: 1,
+    padding: 10,
+    color: '#fff',
+    borderRadius: 8,
+    backgroundColor: '#1f1f1f',
+  },
+  iconButton: {
+    position: 'absolute',
+    right: 10,
+    top: 10,
+  },
   button: {
     backgroundColor: '#6200EE',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',
+    marginTop: 20,
   },
   buttonText: {
     color: '#fff',

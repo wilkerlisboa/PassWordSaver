@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   footerLink: {
-    color: '#6200EE',
+    color: '#fff',
     fontSize: 14,
     textDecorationLine: 'underline',
   },
